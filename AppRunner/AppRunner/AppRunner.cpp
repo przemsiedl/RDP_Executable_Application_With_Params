@@ -116,9 +116,10 @@ bool FileExists(string path) {
 }
 
 bool InSharedStorages(string path) {
-	string disk;
-	disk = path[0] + path[1] + path[2];
-	if (path.find(disk) >= 0) {
+	string disk = "";
+	disk = path.substr(0, 3);
+	int fnd = SharedStorages.find(disk);
+	if (fnd >= 0) {
 		return true;
 	}
 	return false;
@@ -135,7 +136,6 @@ void SaveData(string path, int argc, char* argv[]) {
 			}
 			else
 			{
-
 				filePath.replace(1, 1, "");
 				params = params + "\"\\\\tsclient\\" + filePath + "\" ";
 			}
@@ -184,6 +184,7 @@ int main(int argc, char* argv[])
 			cout << endl;
 			cout << "Addons:" << endl;
 			cout << "If you put Resource Hacker \"rh.exe\" in this app directory and icon in output directory with the same name but.ico extension, app will set icon to new exe file." << endl;
+			cout << endl;
 			exit(0);
 		}
 	}
@@ -198,12 +199,14 @@ int main(int argc, char* argv[])
 
 			{	//set icon to exe file
 				string rhPath;
-				rhPath = AppPath.substr(0, AppPath.length() - 3) + "exe";
+				rhPath = AppPath.substr(0, AppPath.find_last_of('\\')) + "\\rh.exe";
+				cout << rhPath << endl;
 				string icoPath;
 				icoPath = output.substr(0, output.length() - 3) + "ico";
-
+				cout << icoPath << endl;
 				if (FileExists(rhPath) && FileExists(icoPath)) {
-					system(("\"rh.exe\" -open \"" + output + "\" -save \"" + output + "\" -action addskip -res \"" + icoPath + "\" -mask ICONGROUP,MAINICON,0").c_str());
+					system((rhPath + " -open \"" + output + "\" -save \"" + output + "\" -action addskip -res \"" + icoPath + "\" -mask ICONGROUP,MAINICON,0").c_str());
+					cout << ("" + rhPath + " -open \"" + output + "\" -save \"" + output + "\" -action addskip -res \"" + icoPath + "\" -mask ICONGROUP,MAINICON,0").c_str() << endl;
 				}
 			}
 
@@ -211,7 +214,7 @@ int main(int argc, char* argv[])
 			exit(0);
 		}
 	}
-
-	SaveData("$starter.rdp", argc, argv);
-	system("%windir%\\system32\\mstsc.exe $starter.rdp");
+	string starterPath = AppPath.substr(0, AppPath.find_last_of('\\')) + "\\$starter.rdp";
+	SaveData(starterPath, argc, argv);
+	system(("%windir%\\system32\\mstsc.exe \"" + starterPath + "\"").c_str());
 }
