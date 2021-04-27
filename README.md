@@ -1,6 +1,8 @@
 # RDP_Executable_Application_With_Params
 ## Description:
-  Use RDP apps like local applications on your computer, in command-line, and to "run with" option.
+  Use RDP apps like local applications on your computer, in command-line, and to "run with" option.<br>
+## How it works:
+  The application replicating herself to create a new application and inserting RDP file content into a variable inside the compiled application. On the execute it's saving RDP file on the drive with parameters and runs it.
   
 ## Use example:
   1. In RemoteApp Tool, add application like Edge, VLC, or Steam like on the photo below,<br>
@@ -25,3 +27,4 @@
     ![obraz](https://user-images.githubusercontent.com/26689155/116283395-200e4c00-a78c-11eb-9c3a-0de321521aff.png)<br>
  ## In Windows OS you can run with this app and it will work.<br>
  ## "Z:\" drive is used as a shared disk available on the app server.
+ ## RDP file can't contains "remoteapplicationcmdline:s:" line.
